@@ -5,6 +5,7 @@ if (window.XMLHttpRequest)
 else if (window.ActiveXObject)
 	xHRObject = new ActiveXObject("Microsoft.XMLHTTP");
 
+var debug = true;
 function validate() {
 	var email = (document.getElementById("email").value).trim();
 	var fname = (document.getElementById("fname").value).trim();
@@ -14,7 +15,7 @@ function validate() {
 	var phone = document.getElementById("phone").value.trim();
 	var result = true;
 	var errorMess = "";
-	if (true) {
+	if (debug) {
 		//email = "testing@test.com";
 		fname = "Name";
 		lname = "Last Name";
@@ -101,6 +102,9 @@ function register() {
 	var errorMess = "";
 	if (xHRObject.readyState == 4 && xHRObject.status == 200) {
 		serverResponse = xHRObject.responseText;
+		if (debug) {
+			alert(serverResponse);
+		}
 		if (serverResponse == "false") {
 			errorMess += "This email has been exist!!";
 			notification.className = "error";

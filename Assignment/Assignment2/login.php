@@ -1,51 +1,55 @@
 <?php
-//AnhQuan 4984153
 session_start();
 header('Content-Type: text/xml, text/plan');
-//xmlfile
-$xmlCustomerFilePath = "/home/students/accounts/s4984153/cos80021/www/data/customer.xml";
-//load xml
 
+$filePath = "./home/students/accounts/s4959353/cos80021/www/data/customers.xml";
+$email ="";
+$password ="";
+$result ="false";
 
-if(file_exists($xmlCustomerFilePath))
+if(isset($_POST["email"]) && isset($_POST["password"]))
 {
-	$customerXML = simplexml_load_file($xmlCustomerFilePath);
-	
-	if(isset($_POST["email"]) && isset($_POST["password"]))
-	{		
-		$email = $_POST["email"];
-		$password = $_POST["password"];
-		$result ="";		
-		foreach($customerXML->customer as $customer)
+	$email=trim($_POST["email"]);
+	$password=trim($_POST["password"]);
+	if(file_exists($filePath))
+	{
+		$xml=simplexml_load_file($filePath);
+		
+		if(checkUser($email,$password,$xml))
 		{
-			if($customer->email == $email && $customer->password == $password)
-			{
-				$result = "true";
-				$aCustomer["customer"] = array(
-						"id" => (int)$customer->id,
-						"firstname" => (string)$customer->firstname,
-						"surname" => (string)$customer->surname,
-						"email" => (string)$customer->email
-						);
-						$_SESSION["customer"] = $aCustomer["customer"];			
-			}
-			
+			$result = "true";
 		}
-		echo $result; 		
 	}
-
 	else
 	{
-		echo "Sending request problem";
+		echo "Unable to open file!";
 	}
+
+	//user&pass doest found
+	//echo "Name or password are incorrect!";
+	echo $result;
+
 	
 }
-else
+function checkUser($email,$password, $xml)
 {
-	echo "File not found";
+	
+	if($xml->customer->count() > 0)
+	{
+			foreach($xml->customer as $customer)
+			{
+					$curEmail =$customer->email;
+					$curPass = $customer->password;
+					if($customer->email == $email && $customer->password == $password)
+					{
+						//$_SESSION["customer_id"] = $customer->id;
+						$_SESSION["customer_id"] = 123456;//$customer->id;
+						return true;
+					}
+			}
+	}
+	
+	return false;
+	
 }
-
-
-
-
 ?> 

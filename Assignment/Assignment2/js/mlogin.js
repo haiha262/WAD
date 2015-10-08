@@ -12,18 +12,18 @@ else if (window.ActiveXObject)
 
 //adminLogin called on click log in button
 
-function userLogin() {
+function adminLogin() {
 	//declare variable
 	var result = true;
 	var errorMess = "";
-	var email = document.getElementById("email");
+	var admin_name = document.getElementById("admin_name");
 	var password = document.getElementById("password");
 
-	email = email.value.trim();
+	admin_name = admin_name.value.trim();
+
 	password = password.value.trim();
-	
-	if (email == "") {
-		errorMess += "Please enter Email.<br/>";
+	if (admin_name == "") {
+		errorMess += "Please enter Admin Name.<br/>";
 		result = false;
 	}
 
@@ -37,9 +37,9 @@ function userLogin() {
 		notification.innerHTML = errorMess;
 	} else {
 		//body of post request
-		var bodyOfRequest = "email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password);
+		var bodyOfRequest = "admin_name=" + encodeURIComponent(admin_name) + "&password=" + encodeURIComponent(password);
 		//send log in request
-		xHRObject.open("POST", "login.php", true);
+		xHRObject.open("POST", "mlogin.php", true);
 		xHRObject.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xHRObject.onreadystatechange = login; //callback function	
 		xHRObject.send(bodyOfRequest);
@@ -55,7 +55,7 @@ function login() {
 		var responseText = xHRObject.responseText;
 		//errorDisplay.innerHTML = responseText; debug
 		if (responseText.trim() == "true") {			
-			window.location.href = "buying.htm";
+			window.location.href = "listing.htm";
 		} else if (responseText.trim() == "Unable to open file!") {
 			errorMess += "<p> Unable to open file! </p>";
 			result = false;

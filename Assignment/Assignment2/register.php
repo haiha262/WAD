@@ -1,91 +1,92 @@
 <?php
 header("Content-type: text/xml "); //  have to set this for IE
-$xmlCustomerFilePath ='./data/customers.xml';
-if(!file_exists($xmlCustomerFilePath))
+$filePath = "./home/students/accounts/s4959353/cos80021/www/data/customers.xml";
+//$filePath = "./data/customers.xml";
+if(!file_exists($filePath))
 {
 	//create new file and save to the path
-		$newDoc = new DOMDocument("1.0");
-		$root = $newDoc->createElement("Customers");
-		$root = $newDoc->appendChild($root);		
-		$newDoc->FormatOutput = true;
-		$newDoc->saveXML();
-		$newDoc->save($xmlCustomerFilePath);		
+	$newDoc = new DOMDocument("1.0");
+	$root = $newDoc->createElement("customers");
+	$root = $newDoc->appendChild($root);		
+	$newDoc->FormatOutput = true;
+	$newDoc->saveXML();
+	$newDoc->save($filePath);		
 
 }
 		
-		$customerId= uniqid();
-		$firstname = $_POST["fname"];
-		$lastname = $_POST["lname"];
-		$password = $_POST["password"];
-		$phone = $_POST["phone"];
-		$email = $_POST["email"];
+	$customerId= uniqid();
+	$firstname = $_POST["fname"];
+	$lastname = $_POST["lname"];
+	$password = $_POST["password"];
+	$phone = $_POST["phone"];
+	$email = $_POST["email"];
 	
-				$way1 = false;
-				if($way1)//way 1
-				{
-								//////////////================///////////////
-								//Option1
-								$xml=simplexml_load_file($xmlCustomerFilePath);
-								if(!checkEmail($email,$xml))
-								{
-									echo "false";
-								}
-								else //insert new customer
-								{
-												
-												$xml = $xml->asXML();
-												$customersNode = new SimpleXMLElement($xml);
-												
-												//add new node customer
-												$customerNode = $customersNode->addChild("customer"); 		
-												//add new node in customer
-												$customerNode->addChild("id", $customerId); 
-												$customerNode->addChild("firstname", $firstname);
-												$customerNode->addChild("lastname", $lastname);
-												$customerNode->addChild("password", $password);
-												$customerNode->addChild("email", $email);
-												$customerNode->addChild("phone", $phone); 
-												//save into file	
-												$customersNode->asXML($xmlCustomerFilePath);
-												echo "true";
-								}
-								//////////////================///////////////
-				}
-				else //way 2
-				{
+	$way1 = true;
+	if($way1)//way 1
+	{
+		//////////////================///////////////
+		//Option1
+		$xml=simplexml_load_file($filePath);
+		if(!checkEmail($email,$xml))
+		{
+			echo "false";
+		}
+		else //insert new customer
+		{
+						
+			$xml = $xml->asXML();
+			$customersNode = new SimpleXMLElement($xml);
+			
+			//add new node customer
+			$customerNode = $customersNode->addChild("customer"); 		
+			//add new node in customer
+			$customerNode->addChild("id", $customerId); 
+			$customerNode->addChild("firstname", $firstname);
+			$customerNode->addChild("lastname", $lastname);
+			$customerNode->addChild("password", $password);
+			$customerNode->addChild("email", $email);
+			$customerNode->addChild("phone", $phone); 
+			//save into file	
+			$customersNode->asXML($filePath);
+			echo "true";
+		}
+		//////////////================///////////////
+	}
+	else //way 2
+	{
 
-								$xml = new DOMDocument();
-								$xml->load($xmlCustomerFilePath);
-								
-								if(!checkEmail($email,$xml))
-								{
-												echo "false";
-								}
-								else //insert new customer
-								{
-										//$customers = $xml->getElementsByTagName('Customers');
-										//$customers = $customers->item(0);
-										//OR
-										$firstElement = $xml->firstChild;
-										// add new node into root
-										$customer = $xml->createElement('Customer');
-										$customer = $firstElement->appendChild($customer);
-										
-										addANodeValue('id',$customerId,$customer,$xml);
-										addANodeValue('firstname',$firstname,$customer,$xml);
-										addANodeValue('lastname',$lastname,$customer,$xml);
-										addANodeValue('password',$password,$customer,$xml);
-										addANodeValue('email',$email,$customer,$xml);
-										addANodeValue('phone',$phone,$customer,$xml);
-										
-										$strXml = $xml->saveXML(); 
-										$xml->save($xmlCustomerFilePath);
-										
-										
-										echo "true";
-								}
-								
-				}
+		$xml = new DOMDocument();
+		$xml->load($filePath);
+		
+		if(!checkEmail($email,$xml))
+		{
+						echo "false";
+		}
+		else //insert new customer
+		{
+				//$customers = $xml->getElementsByTagName('Customers');
+				//$customers = $customers->item(0);
+				//OR
+				$firstElement = $xml->firstChild;
+				// add new node into root
+				$customer = $xml->createElement('customer');
+				$customer = $firstElement->appendChild($customer);
+				
+				addANodeValue('id',$customerId,$customer,$xml);
+				addANodeValue('firstname',$firstname,$customer,$xml);
+				addANodeValue('lastname',$lastname,$customer,$xml);
+				addANodeValue('password',$password,$customer,$xml);
+				addANodeValue('email',$email,$customer,$xml);
+				addANodeValue('phone',$phone,$customer,$xml);
+				
+				$strXml = $xml->saveXML(); 
+				$xml->save($filePath);
+				
+				
+				echo "true";
+		}
+					
+	}
 
 function addANodeValue($nodeChildName,$value, $nodeParent, $root)
 {
@@ -105,12 +106,12 @@ function checkEmail($email, $xml)
 								{
 										if($customer->email == $email)
 										{
-										return true;
+										return false;
 										}
 								}
 						}
 						
-						return false;
+						return true;
 				}
 				else
 				{

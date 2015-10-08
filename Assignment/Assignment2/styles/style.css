@@ -4,24 +4,161 @@ Purpose: to decorate sites
 Author: Tran Ha
 */
 fieldset {
-	padding:10px;
-	background-color:#FFC;
+	padding: 10px;
+	background-color: #FFC;
 }
+
 .success, .error {
-	color:#555;
-    border-radius:10px;
-    font-family:Tahoma,Geneva,Arial,sans-serif;font-size:12px;
-    padding:10px 10px 10px 36px;
-    margin:10px;
-	width:50%;
-		
+	color: #555;
+	border-radius: 10px;
+	font-family: Tahoma,Geneva,Arial,sans-serif;
+	font-size: 12px;
+	padding: 10px 10px 10px 36px;
+	margin: 10px;
+	width: 50%;
 }
+
 .success {
-	
-    background:#e9ffd9 url('../images/success.png') no-repeat 10px 50%;
-    border:1px solid #a6ca8a;
+	background: #e9ffd9 url('../images/success.png') no-repeat 10px 50%;
+	border: 1px solid #a6ca8a;
 }
+
 .error {
-    background:#ffecec url('../images/error.png') no-repeat 10px 50%;
-    border:1px solid #f5aca6;
+	background: #ffecec url('../images/error.png') no-repeat 10px 50%;
+	border: 1px solid #f5aca6;
+}
+
+#welcome, #tksMes, #addTable {
+	text-align: center;
+}
+
+#navcontainer ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	text-align: center;
+}
+
+#navcontainer ul li {
+	display: inline;
+}
+
+#navcontainer ul li a {
+	text-decoration: none;
+	padding: .2em 1em;
+	color: #000;
+}
+
+#navcontainer ul li a:hover {
+	color: #FCF;
+}
+/*#loginSuccess{
+	display: none;
+}*/
+
+#listingFrm {
+	text-align: center;
+}
+
+/*table {
+	width: auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table, th, td {
+	border: 1px solid #C2C2A3;
+}*/
+
+.tableCat {
+	margin: 0px;
+	padding: 0px;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #000000;
+	/*-moz-border-radius-bottomleft: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	-moz-border-radius-bottomright: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	-moz-border-radius-topright: 0px;
+	-webkit-border-top-right-radius: 0px;
+	border-top-right-radius: 0px;
+	-moz-border-radius-topleft: 0px;
+	-webkit-border-top-left-radius: 0px;
+	border-top-left-radius: 0px;*/
+}
+
+.tableCat table {
+	
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	
+	padding: 0px;
+}
+
+.tableCat tr:last-child td:last-child {
+	-moz-border-radius-bottomright: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+.tableCat tr:nth-child(odd) {
+	background-color: #ffffff;
+}
+
+.tableCat tr:nth-child(even) {
+	background-color: #ffffff;
+}
+
+.tableCat td {
+	vertical-align: middle;
+	border: 1px solid #000000;
+	border-width: 1px 1px 1px 1px;
+	text-align: left;
+	padding: 0px;
+	font-size: 10px;
+	font-family: Arial;
+	font-weight: normal;
+	color: #000000;
+}
+
+.tableCat tr:last-child td {
+	border-width: 1px 1px 1px 1px;
+}
+
+.tableCat tr td:last-child {
+	border-width: 1px 1px 1px 1px;
+}
+
+.tableCat tr:last-child td:last-child {
+	border-width: 1px 1px 1px 1px;
+}
+
+.tableCat th {
+	
+	background-color: #969696;
+	/*border: 1px solid #000000;*/
+	text-align: center;
+	font-size: 14px;
+	font-family: Arial;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.tableCat tr:first-child:hover td {
+	background-color: #969696;
+}
+
+.tableCat tr:first-child td:first-child {
+	border-width: 1px 1px 1px 1px;
+}
+
+.tableCat tr:first-child td:last-child {
+	border-width: 1px 1px 1px 1px;
 }
