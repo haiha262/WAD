@@ -1,6 +1,6 @@
 <?php
 session_start();
-//header("Content-Type:text/xml");
+header("Content-Type:text/xml");
 
 $filePath = "./home/students/accounts/s4959353/cos80021/www/data/goods.xml";
 //load category
