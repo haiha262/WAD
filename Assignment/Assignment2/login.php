@@ -13,7 +13,10 @@ if(isset($_POST["email"]) && isset($_POST["password"]))
 	$password=trim($_POST["password"]);
 	if(file_exists($filePath))
 	{
-		$xml=simplexml_load_file($filePath);
+		$xml = new DomDocument('1.0');
+		$xml->load($filePath); 
+		//way2
+		//$xml=simplexml_load_file($filePath);
 		
 		if(checkUser($email,$password,$xml))
 		{
@@ -33,7 +36,25 @@ if(isset($_POST["email"]) && isset($_POST["password"]))
 }
 function checkUser($email,$password, $xml)
 {
+	$customerList = $xml->getElementsByTagName('customer');
+	if($customerList->length>0)
+	{
+
+		foreach($customerList as $customer)
+		{
+			$curEmail =$customer->getElementsByTagName('email')->item(0)->nodeValue;
+			$curPass = $customer->getElementsByTagName('password')->item(0)->nodeValue;
+			if($curEmail == $email && $curPass == $password)
+			{
+				$_SESSION["id"] = $customer->getElementsByTagName('id')->item(0)->nodeValue;
+				//$_SESSION["id"] = 123456;//$customer->id;
+				return true;	
+			}
+		}
+	}
 	
+	//way2
+	/*
 	if($xml->customer->count() > 0)
 	{
 			foreach($xml->customer as $customer)
@@ -42,13 +63,13 @@ function checkUser($email,$password, $xml)
 					$curPass = $customer->password;
 					if($customer->email == $email && $customer->password == $password)
 					{
-						//$_SESSION["customer_id"] = $customer->id;
-						$_SESSION["customer_id"] = 123456;//$customer->id;
+						$_SESSION["id"] = $customer->id; ??not save the value
+						//$_SESSION["id"] = 123456;//$customer->id;
 						return true;
 					}
 			}
 	}
-	
+	*/
 	return false;
 	
 }

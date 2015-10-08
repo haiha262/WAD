@@ -22,7 +22,7 @@ if(isset($_POST["admin_name"]) && isset($_POST["password"]))
 		$pass = trim(strtok(","));
 		if(strcmp($name, $admin_name)==0 && strcmp($pass, $password)==0)
 		{ 
-			$_SESSION["admin_name"] = $admin_name;
+			$_SESSION["id"] = $admin_name;
 			$result = "true";
 		}		
 	}

@@ -8,7 +8,7 @@ if(isset($_POST["request"]))
 	$request = trim($_POST["request"]);
 	if(strcmp($request,"check")==0)
 	{
-		if(isset($_SESSION["admin_name"]))
+		if(isset($_SESSION["id"]))
 		{			
 			echo "true";
 		}
@@ -21,8 +21,8 @@ if(isset($_POST["request"]))
 	{
 		if(strcmp($request,"destroy")==0)
 		{
-			$id = $_SESSION["admin_name"];
-			//session_destroy();			
+			$id = $_SESSION["id"];
+			session_destroy();			
 			echo $id;
 		}
 	}
