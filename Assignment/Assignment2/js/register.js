@@ -22,7 +22,7 @@ function validate() {
 		lname = "Last Name";
 		password = "123456789";
 		confirm_password = password;
-		//phone = "0123456789";
+		phone = "01 23456789";
 	}
 	if (fname.length == 0) {
 		errorMess += "Please enter First name. <br/>";
