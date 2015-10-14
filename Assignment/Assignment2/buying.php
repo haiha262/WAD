@@ -2,7 +2,8 @@
 session_start();
 header("Content-Type:text/xml");
 
-$filePath = "./home/students/accounts/s4959353/cos80021/www/data/goods.xml";
+$fileXMLPath = "./home/students/accounts/s4959353/cos80021/www/data/goods.xml";
+$fileXSLPath = "./home/students/accounts/s4959353/cos80021/www/data/goods.xsl";
 //load category
 $id ="";
 $price ="";
@@ -13,24 +14,36 @@ if(isset($_POST["request"]))
   
   
   //filter xml without hold on and qty >0
-  $xml = new DomDocument('1.0');
-  $xml->load($filePath);
+  $xml = new DOMDocument();
+  $xml->load($fileXMLPath);
   
+
   //way2
   //  $xml = simplexml_load_file($filePath);  
 
   if($action == "loadcategory")
   {
-    echo  $xml->saveXML(); ;
+	/* load xsl*/
+
+	$xslDoc = new DomDocument;
+	$xslDoc->load($fileXSLPath);
+	//combine xsl into xml
+	$proc = new XSLTProcessor;
+	$proc->importStyleSheet($xslDoc);
+	echo $proc->transformToXML($xml);
+	
+	
+    //echo  $xml->saveXML();
 	//way 2
 	//echo $xml->asXML();
   }
   else
   {
     //find detail of item with id
+	
 	$id = $_POST["id"];
-    $price = findItem($xml,$id);
-    
+    $price = findItem($xml,$id,"price");
+    $curQty = findItem($xml,$id,"quantity");
     if ($_SESSION["cart"] != "") 					//check the cart
     {
       $cart = $_SESSION["cart"]; 					//read the cart session into local variable
@@ -49,13 +62,15 @@ if(isset($_POST["request"]))
         }
         else
         {
-          
+          //if $value["qty"] > curQty
+		  //=> error
           $value = $cart[$id];
           $value["price"] = $price;
           $value["qty"] = $value["qty"] + 1;          
           $cart[$id] = $value;
           $_SESSION["cart"] = $cart;
           
+		  //subtracting 1 from the quantity available and adding 1 to the quantity on hold 
           echo (toXml($cart));
         }
       }
@@ -88,6 +103,10 @@ if(isset($_POST["request"]))
   }
   
 }
+function updateCart($xml)
+{
+  
+}
 function toXml($shop_cart)
 {
   $newDoc = new DOMDocument("1.0");
@@ -99,9 +118,9 @@ function toXml($shop_cart)
     $itemNode = $newDoc->createElement("item");
     $itemNode = $root->appendChild($itemNode); //add item tag inside items
 		
-    addANodeValue("itemNumber",$id, $itemNode, $newDoc);
-  	addANodeValue("itemPrice",$ItemDetail["price"], $itemNode, $newDoc);
-    addANodeValue("itemQty",$ItemDetail["qty"], $itemNode, $newDoc);
+    addANodeValue("id",$id, $itemNode, $newDoc);
+  	addANodeValue("price",$ItemDetail["price"], $itemNode, $newDoc);
+    addANodeValue("quantity",$ItemDetail["qty"], $itemNode, $newDoc);
 	
   }
   $strXml = $newDoc->saveXML();
@@ -122,10 +141,10 @@ function findItem($xml, $id)
   {
 	foreach($itemList as $item)
 	{
-	  $itemNumber = $item->firstChild->nodeValue;
+	  $itemNumber = $item->getElementsByTagName("id")[0]->nodeValue;
 	  if($itemNumber == $id)
 	  {
-		$price = $item->getElementsByTagName("itemPrice")->item(0)->nodeValue;
+		$price = $item->getElementsByTagName("price")->item(0)->nodeValue;
 		return $price;
 	  }
 	}
