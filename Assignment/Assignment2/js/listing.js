@@ -46,7 +46,7 @@ function addItem() {
 		errorMess += "Please enter the price. <br/>";
 		result = false;
 	} else { //validate format
-		if (!validateNumber(itemPrice)) {
+		if (!validateCurrency(itemPrice)) {
 			errorMess += "Please enter number only in price field. <br/>";
 			result = false;
 		}
@@ -55,7 +55,12 @@ function addItem() {
 	if (itemQty.length == 0) {
 		errorMess += "Please enter the quantity. <br/>";
 		result = false;
-	} else { //validate format
+	}
+	else if (itemQty.length >8) {
+		errorMess += "The quantity is too long. <br/>";
+		result = false;
+	} 
+	else { //validate format
 		if (!validateNumber(itemQty)) {
 			errorMess += "Please enter number only in quantity field. <br/>";
 			result = false;
@@ -133,6 +138,11 @@ function validatePhone(phone) {
 
 function validateNumber(input) {
 	//check 
-	var regex = /^[0-9]{1,10}$/;
+	var regex = /^[0-9]{1,8}$/;
+	return regex.test(input);
+}
+function validateCurrency(input) {
+	//check 
+	var regex = /^\$?[\d,]+(\.\d*)?$/;
 	return regex.test(input);
 }
