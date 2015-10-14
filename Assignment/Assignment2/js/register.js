@@ -6,6 +6,7 @@ else if (window.ActiveXObject)
 	xHRObject = new ActiveXObject("Microsoft.XMLHTTP");
 
 var debug = true;
+var notification;
 function validate() {
 	var email = (document.getElementById("email").value).trim();
 	var fname = (document.getElementById("fname").value).trim();
@@ -21,7 +22,7 @@ function validate() {
 		lname = "Last Name";
 		password = "123456789";
 		confirm_password = password;
-		phone = "0123456789";
+		//phone = "0123456789";
 	}
 	if (fname.length == 0) {
 		errorMess += "Please enter First name. <br/>";
@@ -47,7 +48,7 @@ function validate() {
 		}
 	}
 
-	if (email.lenght == 0) {
+	if (email.length == 0) {
 		errorMess += "Please enter Email. <br/>";
 		result = false;
 	} else { //validate format
@@ -58,13 +59,13 @@ function validate() {
 	}
 
 	if (phone.length > 0) {
-		if (validatePhone(phone)) {
-			errorMess += "Format phone number must be (01)12345678 or 0123456789.<br/>";
+		if (!validatePhone(phone)) {
+			errorMess += "Format phone number must be (01)12345678 or 01 23456789.<br/>";
 			result = false;
 		}
 	}
 
-	var notification = document.getElementById("notification");
+	notification = document.getElementById("notification");
 	if (!result) {
 		notification.className = "error";
 		notification.innerHTML = errorMess;
@@ -109,8 +110,15 @@ function register() {
 			errorMess += "This email has been exist!!";
 			notification.className = "error";
 		} else if (serverResponse == "true") {
-			errorMess += "Successful registration";
-			notification.className = "success";
+			//errorMess += "Successful registration";
+			//notification.className = "success";
+			//var homeLink = document.getElementById("homeLink");
+			//homeLink.innerHTML = "<a href=\"buyonline.htm\">Back</a>";
+			var mess = "<h1>Registration successful</h1>";
+			mess += "Thank you. The registration has been completed successfully."
+			mess += "<p><a href=\"buyonline.htm\">Back</a></p>";
+			
+			document.write(mess);
 		}
 		notification.innerHTML = errorMess;
 	}
@@ -124,6 +132,6 @@ function validateEmail(email) {
 
 function validatePhone(phone) {
 	//check 
-	var regex = /^[(]\d{0}\d{1}[)]\d{8}$/;
+	var regex = /^([(][0-9]{2}[)][0-9]{8}|[0-9]{2} [0-9]{8})$/;
 	return regex.test(phone);
 }
