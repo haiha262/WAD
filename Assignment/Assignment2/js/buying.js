@@ -79,7 +79,7 @@ function addNew() {
 			table += "<table class=\"tableCat\">";
 			table += "<tr><th>Item Number</th><th>Price</th><th>Quantity</th><th>Remove</th></tr>";
 
-
+			var total = 0;
 			for (i = 0; i < header.length; i++) {
 				var node = header[i];
 				var itemNumber = node.getElementsByTagName("itemNumber")[0].firstChild.nodeValue;
@@ -87,6 +87,7 @@ function addNew() {
 				//var itemDsc = node.getElementsByTagName("itemDescription")[0].firstChild.nodeValue;
 				var itemPrice = node.getElementsByTagName("itemPrice")[0].firstChild.nodeValue;
 				var itemQty = node.getElementsByTagName("itemQty")[0].firstChild.nodeValue;
+				total += itemPrice*itemQty;
 				table += "<tr>";
 				table += "<td>" + itemNumber + "</td>";
 				//table += "<td>" + itemName + "</td>";
@@ -96,6 +97,11 @@ function addNew() {
 				table += "<td><input type=\"button\" value=\"Remove from cart\" onclick=\"AddRemoveItem('remove','" + itemNumber + "');\"/></td>";
 				table += "</tr>";
 			}
+			table += "<tr><td colspan=\"3\">Total:</td><td>"+total+"</td></tr>";
+			table += "<tr><td colspan=\"4\">";
+			table += "<input type=\"button\" value=\"Confirm Purchase\" onclick=\"purchase('confirm');\"/>";
+			table += "<input type=\"button\" value=\"Cancel Purchase\" onclick=\"purchase('cancel');\"/>";
+			table += "</td></tr>";
 			table += "</table>";
 		}
 		spantag.innerHTML = table;

@@ -60,7 +60,7 @@ function login() {
 			errorMess += "<p> Unable to open file! </p>";
 			result = false;
 		} else {
-			errorMess += "<p> Your log in information is not correct! </p>";
+			errorMess += "<p> Invalid email address or password </p>";
 			result = false;
 		}
 

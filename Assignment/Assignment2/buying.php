@@ -12,17 +12,18 @@ if(isset($_POST["request"]))
   $action = $_POST["request"];
   
   
-  //filter xml without hold on and qty >0  
-    $xml = simplexml_load_file($filePath);  
+  //filter xml without hold on and qty >0
+  $xml = new DomDocument('1.0');
+  $xml->load($filePath);
+  
   //way2
-  //$xml = new DomDocument('1.0');
-  //$xml->load($filePath);
+  //  $xml = simplexml_load_file($filePath);  
 
   if($action == "loadcategory")
   {
-     echo $xml->asXML();
-    //way 2
-    //echo  $xml->saveXML(); ;
+    echo  $xml->saveXML(); ;
+	//way 2
+	//echo $xml->asXML();
   }
   else
   {
@@ -62,8 +63,12 @@ if(isset($_POST["request"]))
       {
         $value = $cart[$id];
         $value["price"] = $price;
-        $value["qty"] = $value["qty"] - 1;       
-        $cart[$id] = $value;
+        $value["qty"] = $value["qty"] - 1;
+		$cart[$id] = $value;
+		if ($value["qty"]==0)
+		{			
+			unset($cart[$id]);
+		}
         $_SESSION["cart"] = $cart;
         echo (toXml($cart)); 
         
@@ -79,7 +84,7 @@ if(isset($_POST["request"]))
       $cart[$id] = $value;
       $_SESSION["cart"] = $cart;
       echo (toXml($cart));
-    }
+    }                             
   }
   
 }
@@ -95,7 +100,7 @@ function toXml($shop_cart)
     $itemNode = $root->appendChild($itemNode); //add item tag inside items
 		
     addANodeValue("itemNumber",$id, $itemNode, $newDoc);
-		addANodeValue("itemPrice",$ItemDetail["price"], $itemNode, $newDoc);
+  	addANodeValue("itemPrice",$ItemDetail["price"], $itemNode, $newDoc);
     addANodeValue("itemQty",$ItemDetail["qty"], $itemNode, $newDoc);
 	
   }
@@ -112,6 +117,21 @@ function addANodeValue($nodeChildName,$value, $nodeParent, $root)
 }	
 function findItem($xml, $id)
 {
+  $itemList = $xml->getElementsByTagName("item");
+  if($itemList->length > 0)
+  {
+	foreach($itemList as $item)
+	{
+	  $itemNumber = $item->firstChild->nodeValue;
+	  if($itemNumber == $id)
+	  {
+		$price = $item->getElementsByTagName("itemPrice")->item(0)->nodeValue;
+		return $price;
+	  }
+	}
+  }
+  //way2
+  /*
   if($xml->item->count() > 0)
 	{
 		foreach($xml->item as $item)
@@ -122,4 +142,5 @@ function findItem($xml, $id)
 			}
 		}
 	}
+	*/
 }

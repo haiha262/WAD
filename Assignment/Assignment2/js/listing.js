@@ -4,23 +4,23 @@ if (window.XMLHttpRequest)
 	xHRObject = new XMLHttpRequest();
 else if (window.ActiveXObject)
 	xHRObject = new ActiveXObject("Microsoft.XMLHTTP");
-//
-//var bodyOfRequest = "request=" + encodeURIComponent("checkSession");;
-//xHRObject.open("POST", "session.php", true);
-//xHRObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//xHRObject.send(bodyOfRequest);
-//xHRObject.onreadystatechange = function() {
-//
-//	if ((xHRObject.readyState == 4) && (xHRObject.status == 200)) {
-//		var responseText = xHRObject.responseText;
-//		if (responseText != null) {
-//			if (responseText.trim() == "false") {
-//				window.location.href = "mlogin.htm";
-//			}
-//		}
-//	}
-//};
 
+checkAccess();
+function checkAccess() {
+	var bodyOfRequest = "request=" + encodeURIComponent("check");;
+	xHRObject.open("POST", "session.php", true);
+	xHRObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xHRObject.send(bodyOfRequest);
+	xHRObject.onreadystatechange = function() {
+		if ((xHRObject.readyState == 4) && (xHRObject.status == 200)) {
+			var serverResponse = xHRObject.responseText;
+			if (serverResponse == "false") {
+				//Login again
+				window.location = "buyonline.htm";
+			} 
+		}
+	}
+}
 
 function addItem() {
 	var itemName = (document.getElementById("itemName").value).trim();
