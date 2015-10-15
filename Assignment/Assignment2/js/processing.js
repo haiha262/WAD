@@ -6,21 +6,44 @@ else if (window.ActiveXObject)
 	xHRObject = new ActiveXObject("Microsoft.XMLHTTP");
 
 var filter = true;//remember edit on php file
-loadProcess();
-function loadProcess() {
+load();
+function load() {
 	var bodyOfRequest = "request=load";
 	xHRObject.open("POST", "processing.php", true);
 	xHRObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xHRObject.send(bodyOfRequest);
 	xHRObject.onreadystatechange = function() { //calback function
 
-		var table = "";
+		loadTable("load");
+	}
+
+}
+
+function Process() {
+	var bodyOfRequest = "request=process";
+	xHRObject.open("POST", "processing.php", true);
+	xHRObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xHRObject.send(bodyOfRequest);
+	xHRObject.onreadystatechange = function() { //calback function
+
+		loadTable("process");
+	}
+
+}
+function loadTable(action) {
+	var table = "";
 		if ((xHRObject.readyState == 4) && (xHRObject.status == 200)) {
-			if (filter) {
-				var serverResponse = xHRObject.responseText;
-				var spantag = document.getElementById("catalog");
-				spantag.innerHTML = serverResponse;
-			} else {
+			var errorLogin = xHRObject.responseText;
+			if (errorLogin=="login") {
+				window.location="buyonline.htm";
+			}
+			//if (filter) {
+			//	var serverResponse = xHRObject.responseText;
+			//	var spantag = document.getElementById("catalog");
+			//	spantag.innerHTML = serverResponse;
+			//} else
+			{
+				
 			var serverResponse = xHRObject.responseXML;
 			var header = serverResponse.getElementsByTagName("item");
 			var spantag = document.getElementById("catalog");
@@ -51,17 +74,17 @@ function loadProcess() {
 
 					table += "</tr>";
 				}
-				table += "<tr><td colspan=\"6\">";
-				table += "<input type=\"button\" value=\"Process\" onclick=\"Process();\"/>";
-
-				table += "</td></tr>";
-
+				if (action=="load") {
+				
+					table += "<tr><td colspan=\"6\">";
+					table += "<input type=\"button\" value=\"Process\" onclick=\"Process();\"/>";
+	
+					table += "</td></tr>";
+				}
 				table += "</table>";
 				isloadProcess = true;
 			}
 			spantag.innerHTML = table;
 			}
 		}
-	}
-
 }
