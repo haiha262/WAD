@@ -15,31 +15,51 @@ if(isset($_POST["request"]))
   
   //filter xml without hold on and qty >0
   $xml = new DOMDocument();
-  $xml->load($fileXMLPath);
-  
+  $xml->load($fileXMLPath);  
 
   //way2
   //  $xml = simplexml_load_file($filePath);  
 
+  
   if($action == "loadcategory")
   {
-	/* load xsl*/
-
-	$xslDoc = new DomDocument;
-	$xslDoc->load($fileXSLPath);
-	//combine xsl into xml
-	$proc = new XSLTProcessor;
-	$proc->importStyleSheet($xslDoc);
-	echo $proc->transformToXML($xml);
-	
-	
-    //echo  $xml->saveXML();
-	//way 2
-	//echo $xml->asXML();
+	loadcategory($xml);	
   }
-  else
+  else if($action == "Add" || $action == "Remove")
   {
-    //find detail of item with id
+    AddRemoveItem($xml,$action);
+  }
+  else if($action == "Confirm" || $action == "Cancel")
+  {
+	PurchaseItem($xml,$action);
+  }
+}
+
+function loadcategory($xml)
+{
+  /* load xsl*/
+	$filter=true;//remember edit on js file
+	if($filter)
+	{
+	  $fileXSLPath =$GLOBALS["fileXSLPath"];
+	  $xslDoc = new DomDocument;
+	  $xslDoc->load($fileXSLPath);
+	  //combine xsl into xml
+	  $proc = new XSLTProcessor;
+	  $proc->importStyleSheet($xslDoc);
+	  echo $proc->transformToXML($xml);
+	}
+	else
+	{	
+	  echo  $xml->saveXML();
+	  //way 2
+	  //echo $xml->asXML();
+	}
+}
+
+function AddRemoveItem($xml,$action)
+{
+  //find detail of item with id
 	
 	$id = $_POST["id"];
     $price = findItem($xml,$id,"price");
@@ -49,30 +69,37 @@ if(isset($_POST["request"]))
       $cart = $_SESSION["cart"]; 					//read the cart session into local variable
       if ($action == "Add") 						//process add function
       {
-        if (!isset($cart[$id]))
-        {  
-          $qty = 1; 							// increase no of books by 1
-          $value = array();
-          $value["price"] = $price;
-          $value["qty"] = $qty;
-                   
-          $cart[$id] = $value;
-          $_SESSION["cart"] = $cart;  		// save the adjusted cart to session variable 
-          echo (toXml($cart));   				// send XML form of CART to client
-        }
-        else
-        {
-          //if $value["qty"] > curQty
-		  //=> error
-          $value = $cart[$id];
-          $value["price"] = $price;
-          $value["qty"] = $value["qty"] + 1;          
-          $cart[$id] = $value;
-          $_SESSION["cart"] = $cart;
-          
-		  //subtracting 1 from the quantity available and adding 1 to the quantity on hold 
-          echo (toXml($cart));
-        }
+		if($curQty>0)
+		{
+		  if (!isset($cart[$id]))
+		  {  
+			$qty = 1; 							// increase no of books by 1
+			$value = array();
+			$value["price"] = $price;
+			$value["qty"] = $qty;
+					 
+			$cart[$id] = $value;
+			$_SESSION["cart"] = $cart;  		// save the adjusted cart to session variable 
+			//echo (toXml($cart));   				// send XML form of CART to client
+		  }
+		  else
+		  {
+			//if $value["qty"] > curQty
+			//=> error
+			$value = $cart[$id];
+			$value["price"] = $price;
+			$value["qty"] = $value["qty"] + 1;          
+			$cart[$id] = $value;
+			$_SESSION["cart"] = $cart;
+			
+			//subtracting 1 from the quantity available and adding 1 to the quantity on hold 
+			//echo (toXml($cart));
+		  }
+		}
+		else{
+		 echo "sorry";  
+	  	 return; 
+		}
       }
       else 											//proccess remove function
       {
@@ -85,7 +112,7 @@ if(isset($_POST["request"]))
 			unset($cart[$id]);
 		}
         $_SESSION["cart"] = $cart;
-        echo (toXml($cart)); 
+        //echo (toXml($cart)); 
         
       }
     }
@@ -98,14 +125,38 @@ if(isset($_POST["request"]))
       $cart = array();
       $cart[$id] = $value;
       $_SESSION["cart"] = $cart;
-      echo (toXml($cart));
-    }                             
-  }
-  
+      //echo (toXml($cart));
+    }
+	updateCart($xml,$cart,$id,$action);
 }
-function updateCart($xml)
+function updateCart($xml,$cart,$id,$action)
 {
-  
+  ////update catalog
+  $xpath = new DOMXPath($xml);
+  //
+  //// We starts from the root element
+  $query = "//items/item[id='".$id."']";
+  $entries =$xpath->query($query);
+
+  foreach ($entries as $entrie) {
+	$qtyGet = 1;
+	if($action=="Add")
+	  $qtyGet = 1;
+	elseif($action=="Remove")
+	  $qtyGet = -1;
+	  
+	$currentQty = $entrie->getElementsByTagName("quantity")[0]->nodeValue;
+    $entrie->getElementsByTagName("quantity")[0]->nodeValue =$currentQty  - $qtyGet;
+	
+	$currentHoldon = $entrie->getElementsByTagName("holdon")[0]->nodeValue;	
+	$entrie->getElementsByTagName("holdon")[0]->nodeValue = $currentHoldon + $qtyGet;
+	
+	$strXml = $xml->saveXML();
+	$fileXMLPath = $GLOBALS['fileXMLPath'];
+	$xml->save($fileXMLPath);
+  }
+
+  echo (toXml($cart));
 }
 function toXml($shop_cart)
 {
@@ -134,7 +185,7 @@ function addANodeValue($nodeChildName,$value, $nodeParent, $root)
 	$value_node = $root->createTextNode($value);
 	$value_node = $node->appendChild($value_node);
 }	
-function findItem($xml, $id)
+function findItem($xml, $id,$lookNode)
 {
   $itemList = $xml->getElementsByTagName("item");
   if($itemList->length > 0)
@@ -144,7 +195,7 @@ function findItem($xml, $id)
 	  $itemNumber = $item->getElementsByTagName("id")[0]->nodeValue;
 	  if($itemNumber == $id)
 	  {
-		$price = $item->getElementsByTagName("price")->item(0)->nodeValue;
+		$price = $item->getElementsByTagName($lookNode)->item(0)->nodeValue;
 		return $price;
 	  }
 	}
@@ -162,4 +213,64 @@ function findItem($xml, $id)
 		}
 	}
 	*/
+}
+
+function PurchaseItem($xml,$action)
+{
+  if($action == "Confirm")
+  {
+	$totalAmount = 0;
+	$cart = $_SESSION["cart"];
+	foreach($cart as $id=>$value)
+	{
+	  $price= $value["price"];
+	  $qty = $value["qty"];
+	  $totalAmount += (float)$price * $qty;
+	 
+	  $xpath = new DOMXPath($xml);
+	  $query = "//items/item[id='".$id."']";
+	  $entries =$xpath->query($query);
+	  foreach ($entries as $entrie) {
+		$currentHoldon = $entrie->getElementsByTagName("holdon")[0]->nodeValue;	
+		$entrie->getElementsByTagName("holdon")[0]->nodeValue = 0;
+		
+		$entrie->getElementsByTagName("sold")[0]->nodeValue =$currentHoldon;
+		
+		//save to xml file
+		$strXml = $xml->saveXML();
+		$fileXMLPath = $GLOBALS['fileXMLPath'];
+		$xml->save($fileXMLPath);
+	  }
+	  //remove this item
+	  unset($cart[$id]);  
+	  
+	}
+	$_SESSION["cart"]= $cart;
+	echo $totalAmount;
+  }
+  else
+  {
+	$cart = $_SESSION["cart"];
+	foreach($cart as $id=>$value)
+	{
+	  $xpath = new DOMXPath($xml);
+	  $query = "//items/item[id='".$id."']";
+	  $entries =$xpath->query($query);
+	  foreach ($entries as $entrie) {
+		$currentHoldon = $entrie->getElementsByTagName("holdon")[0]->nodeValue;	
+		$entrie->getElementsByTagName("holdon")[0]->nodeValue = 0;
+		
+		$currentQty = $entrie->getElementsByTagName("quantity")[0]->nodeValue;
+		$entrie->getElementsByTagName("quantity")[0]->nodeValue =$currentQty + $currentHoldon;
+		
+		//save to xml file
+		$strXml = $xml->saveXML();
+		$fileXMLPath = $GLOBALS['fileXMLPath'];
+		$xml->save($fileXMLPath);
+	  }
+	  //remove this item
+	  unset($cart[$id]);
+	}
+	$_SESSION["cart"]= $cart;
+  }
 }
