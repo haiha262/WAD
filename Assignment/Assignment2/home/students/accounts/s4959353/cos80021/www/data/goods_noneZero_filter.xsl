@@ -3,7 +3,7 @@
 <xsl:output method="xml" />
 <xsl:template match="/">
 	<items>
-			<xsl:for-each select="/items/item[sold &gt; 0]">
+			<xsl:for-each select="/items/item[quantity != 0 or holdon != 0]">
 			<item>
 					<xsl:variable name="id" select="id"> </xsl:variable>
 					
