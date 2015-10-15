@@ -129,13 +129,13 @@ table {
 	background-color: #ffffff;
 }
 
-.tableCat td {
+.tableCat th,td {
 	vertical-align: middle;
 	border: 1px solid #000000;
 	border-width: 1px 1px 1px 1px;
-	text-align: left;
-	padding: 0px;
-	font-size: 10px;
+	/*text-align: left;*/
+	padding: 8px;
+	font-size: 12px;
 	font-family: Arial;
 	font-weight: normal;
 	color: #000000;
