@@ -1,7 +1,11 @@
 <?php
 session_start();
 header("Content-Type:text/xml");
-
+if(!isset($_SESSION["id"]))
+{
+  echo "login";
+  return;
+}
 $fileXMLPath = "./home/students/accounts/s4959353/cos80021/www/data/goods.xml";
 $fileXSLPath = "./home/students/accounts/s4959353/cos80021/www/data/goods.xsl";
 //load category
@@ -234,7 +238,8 @@ function PurchaseItem($xml,$action)
 		$currentHoldon = $entrie->getElementsByTagName("holdon")[0]->nodeValue;	
 		$entrie->getElementsByTagName("holdon")[0]->nodeValue = 0;
 		
-		$entrie->getElementsByTagName("sold")[0]->nodeValue =$currentHoldon;
+		$currentSold = $entrie->getElementsByTagName("sold")[0]->nodeValue;
+		$entrie->getElementsByTagName("sold")[0]->nodeValue = $currentSold + $currentHoldon;
 		
 		//save to xml file
 		$strXml = $xml->saveXML();

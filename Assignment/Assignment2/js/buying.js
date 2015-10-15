@@ -23,6 +23,10 @@ function loadCat() {
 
 		var table = "";
 		if ((xHRObject.readyState == 4) && (xHRObject.status == 200)) {
+			var errorLogin = xHRObject.responseText;
+			if (errorLogin=="login") {
+				window.location="buyonline.htm";
+			}
 			if (filter) {
 				var serverResponse = xHRObject.responseText;
 				var spantag = document.getElementById("catalog");
