@@ -9,9 +9,11 @@ else if (window.ActiveXObject)
 var isloadCat = false;
 //if (!isloadCat)
 {
-	loadCat();
+	setInterval("loadCat()", 5000);
+	//loadCat();
 
 }
+
 var filter = true;//remember edit on php file
 
 function loadCat() {
@@ -60,6 +62,7 @@ function loadCat() {
 					isloadCat = true;
 				}
 				spantag.innerHTML = table;
+				AddRemoveItem("getCart",0);
 			}
 		}
 	}
@@ -81,13 +84,16 @@ function addNew() {
 		//var serverResponse = xHRObject.responseText;
 		//alert(serverResponse);
 		//return;
-		if (!filter) {
+		//if (!filter)
+		{
 			var serverResponse = xHRObject.responseText;
 			if (serverResponse == "sorry") {
 				alert("Sorry, this item is not available for sale");
 				return;
 			}
 		}
+		var serverResponse = xHRObject.responseText;
+		
 		var serverResponse = xHRObject.responseXML;
 		var header = serverResponse.getElementsByTagName("item");
 		var spantag = document.getElementById("cart");
@@ -125,7 +131,7 @@ function addNew() {
 			table += "</table>";
 		}
 		spantag.innerHTML = table;
-		loadCat();   
+		//loadCat();   
 	}
 }
 function Purchase(action) {

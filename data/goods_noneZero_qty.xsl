@@ -5,7 +5,7 @@
 	<items>
 			<xsl:for-each select="/items/item[sold &gt; 0]">
 			<item>
-					<xsl:variable name="id" select="id"> </xsl:variable>
+					<xsl:variable name="id" select="id"/>
 					
 					<id><xsl:value-of select="id" /></id>
 					<name><xsl:value-of select="name" /></name>

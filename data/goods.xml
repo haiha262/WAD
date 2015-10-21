@@ -4,10 +4,10 @@
 		<id>5614acbdb1eac</id>
 		<name>Item1</name>
 		<price>456</price>
-		<quantity>134</quantity>
+		<quantity>125</quantity>
 		<description>Description</description>
 		<holdon>0</holdon>
-		<sold>0</sold>
+		<sold>4</sold>
 	</item>
 	<item>
 		<id>5614b46fc2de5</id>
@@ -22,9 +22,9 @@
 		<id>5614b4be3e90f</id>
 		<name>Iphone 6s</name>
 		<price>1020</price>
-		<quantity>1000</quantity>
+		<quantity>998</quantity>
 		<description>never used</description>
-		<holdon>0</holdon>
+		<holdon>2</holdon>
 		<sold>0</sold>
 	</item>
 	<item>
@@ -40,10 +40,10 @@
 		<id>5614df223045a</id>
 		<name>View VIne</name>
 		<price>89</price>
-		<quantity>15</quantity>
+		<quantity>11</quantity>
 		<description>Live Video on mobile</description>
 		<holdon>0</holdon>
-		<sold>0</sold>
+		<sold>4</sold>
 	</item>
 	<item>
 		<id>5614df343854b</id>
@@ -67,10 +67,10 @@
 		<id>5614df6b2468d</id>
 		<name>FM 2006</name>
 		<price>29</price>
-		<quantity>30</quantity>
+		<quantity>0</quantity>
 		<description>PC game</description>
 		<holdon>0</holdon>
-		<sold>0</sold>
+		<sold>27</sold>
 	</item>
 	<item>
 		<id>5614df82bb4a7</id>
@@ -85,19 +85,19 @@
 		<id>5614df9d12c9b</id>
 		<name>Samsung galaxy s4</name>
 		<price>629</price>
-		<quantity>20</quantity>
+		<quantity>16</quantity>
 		<description>4G mobile</description>
 		<holdon>0</holdon>
-		<sold>0</sold>
+		<sold>4</sold>
 	</item>
 	<item>
 		<id>5615fae929a58</id>
 		<name>Mac pro</name>
 		<price>1000</price>
-		<quantity>200</quantity>
+		<quantity>191</quantity>
 		<description>Apple mac</description>
-		<holdon>0</holdon>
-		<sold>0</sold>
+		<holdon>3</holdon>
+		<sold>6</sold>
 	</item>
 	<item>
 		<id>56163246522d7</id>

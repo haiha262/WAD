@@ -16,7 +16,7 @@
 
 			<xsl:for-each select="/items/item[quantity &gt; 0]">
 				<tr>
-					<xsl:variable name="id" select="id"> </xsl:variable>
+					<xsl:variable name="id" select="id"/>
 					
 					<td><xsl:value-of select="id" /></td>
 					<td><xsl:value-of select="name" /></td>
