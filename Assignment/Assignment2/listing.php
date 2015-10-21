@@ -1,6 +1,6 @@
 <?php
 header("Content-type: text/xml "); //  have to set this for IE
-$filePath = "./home/students/accounts/s4959353/cos80021/www/data/goods.xml";
+$filePath = "../../data/goods.xml";
 if(!file_exists($filePath))
 {
 	//create new file and save to the path
@@ -31,13 +31,13 @@ if(!file_exists($filePath))
 	//add new node customer
 	$itemNode = $itemsNode->addChild("item"); 		
 	//add new node in customer
-	$itemNode->addChild("itemNumber", $itemId); 
-	$itemNode->addChild("itemName", $itemName);
-	$itemNode->addChild("itemPrice", $itemPrice);
-	$itemNode->addChild("itemQty", $itemQty);
-	$itemNode->addChild("itemDescription", $itemDsc);
-	$itemNode->addChild("itemHoldon", 0);
-	$itemNode->addChild("itemSold", 0); 
+	$itemNode->addChild("id", $itemId); 
+	$itemNode->addChild("name", $itemName);
+	$itemNode->addChild("price", $itemPrice);
+	$itemNode->addChild("quantity", $itemQty);
+	$itemNode->addChild("description", $itemDsc);
+	$itemNode->addChild("holdon", 0);
+	$itemNode->addChild("sold", 0); 
 	//save into file	
 	$itemsNode->asXML($filePath);
 	echo $itemId;

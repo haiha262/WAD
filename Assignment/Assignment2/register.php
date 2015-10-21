@@ -1,6 +1,6 @@
 <?php
 header("Content-type: text/xml "); //  have to set this for IE
-$filePath = "./home/students/accounts/s4959353/cos80021/www/data/customers.xml";
+$filePath = "../../data/customers.xml";
 //$filePath = "./data/customers.xml";
 if(!file_exists($filePath))
 {
@@ -21,7 +21,7 @@ if(!file_exists($filePath))
 	$phone = $_POST["phone"];
 	$email = $_POST["email"];
 	
-	$way1 = true;
+	$way1 = false;
 	if($way1)//way 1
 	{
 		//////////////================///////////////

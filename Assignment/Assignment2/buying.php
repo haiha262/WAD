@@ -6,8 +6,8 @@ if(!isset($_SESSION["id"]))
   echo "login";
   return;
 }
-$fileXMLPath = "./home/students/accounts/s4959353/cos80021/www/data/goods.xml";
-$fileXSLPath = "./home/students/accounts/s4959353/cos80021/www/data/goods.xsl";
+$fileXMLPath = "../../data/goods.xml";
+$fileXSLPath = "../../data/goods.xsl";
 //load category
 $id ="";
 $price ="";
@@ -37,6 +37,10 @@ if(isset($_POST["request"]))
   {
 	PurchaseItem($xml,$action);
   }
+  else if($action == "getCart" )
+  {
+	getCart();
+  }
 }
 
 function loadcategory($xml)
@@ -60,7 +64,16 @@ function loadcategory($xml)
 	  //echo $xml->asXML();
 	}
 }
-
+function getCart()
+{
+  if ($_SESSION["cart"] != "") 					//check the cart
+    {
+      $cart = $_SESSION["cart"]; 
+	   echo (toXml($cart));
+	}
+	else
+	  echo "null";
+}
 function AddRemoveItem($xml,$action)
 {
   //find detail of item with id
@@ -135,6 +148,7 @@ function AddRemoveItem($xml,$action)
 }
 function updateCart($xml,$cart,$id,$action)
 {
+  
   ////update catalog
   $xpath = new DOMXPath($xml);
   //
@@ -143,17 +157,18 @@ function updateCart($xml,$cart,$id,$action)
   $entries =$xpath->query($query);
 
   foreach ($entries as $entrie) {
+	
 	$qtyGet = 1;
 	if($action=="Add")
 	  $qtyGet = 1;
 	elseif($action=="Remove")
 	  $qtyGet = -1;
-	  
-	$currentQty = $entrie->getElementsByTagName("quantity")[0]->nodeValue;
-    $entrie->getElementsByTagName("quantity")[0]->nodeValue =$currentQty  - $qtyGet;
+	 
+	$currentQty = $entrie->getElementsByTagName("quantity")->item(0)->nodeValue;
+    $entrie->getElementsByTagName("quantity")->item(0)->nodeValue =$currentQty  - $qtyGet;
 	
-	$currentHoldon = $entrie->getElementsByTagName("holdon")[0]->nodeValue;	
-	$entrie->getElementsByTagName("holdon")[0]->nodeValue = $currentHoldon + $qtyGet;
+	$currentHoldon = $entrie->getElementsByTagName("holdon")->item(0)->nodeValue;	
+	$entrie->getElementsByTagName("holdon")->item(0)->nodeValue = $currentHoldon + $qtyGet;
 	
 	$strXml = $xml->saveXML();
 	$fileXMLPath = $GLOBALS['fileXMLPath'];
@@ -196,7 +211,7 @@ function findItem($xml, $id,$lookNode)
   {
 	foreach($itemList as $item)
 	{
-	  $itemNumber = $item->getElementsByTagName("id")[0]->nodeValue;
+	  $itemNumber = $item->getElementsByTagName("id")->item(0)->nodeValue;
 	  if($itemNumber == $id)
 	  {
 		$price = $item->getElementsByTagName($lookNode)->item(0)->nodeValue;
@@ -235,11 +250,11 @@ function PurchaseItem($xml,$action)
 	  $query = "//items/item[id='".$id."']";
 	  $entries =$xpath->query($query);
 	  foreach ($entries as $entrie) {
-		$currentHoldon = $entrie->getElementsByTagName("holdon")[0]->nodeValue;	
-		$entrie->getElementsByTagName("holdon")[0]->nodeValue = 0;
+		$currentHoldon = $entrie->getElementsByTagName("holdon")->item(0)->nodeValue;	
+		$entrie->getElementsByTagName("holdon")->item(0)->nodeValue = 0;
 		
-		$currentSold = $entrie->getElementsByTagName("sold")[0]->nodeValue;
-		$entrie->getElementsByTagName("sold")[0]->nodeValue = $currentSold + $currentHoldon;
+		$currentSold = $entrie->getElementsByTagName("sold")->item(0)->nodeValue;
+		$entrie->getElementsByTagName("sold")->item(0)->nodeValue = $currentSold + $currentHoldon;
 		
 		//save to xml file
 		$strXml = $xml->saveXML();
@@ -262,11 +277,11 @@ function PurchaseItem($xml,$action)
 	  $query = "//items/item[id='".$id."']";
 	  $entries =$xpath->query($query);
 	  foreach ($entries as $entrie) {
-		$currentHoldon = $entrie->getElementsByTagName("holdon")[0]->nodeValue;	
-		$entrie->getElementsByTagName("holdon")[0]->nodeValue = 0;
+		$currentHoldon = $entrie->getElementsByTagName("holdon")->item(0)->nodeValue;	
+		$entrie->getElementsByTagName("holdon")->item(0)->nodeValue = 0;
 		
-		$currentQty = $entrie->getElementsByTagName("quantity")[0]->nodeValue;
-		$entrie->getElementsByTagName("quantity")[0]->nodeValue =$currentQty + $currentHoldon;
+		$currentQty = $entrie->getElementsByTagName("quantity")->item(0)->nodeValue;
+		$entrie->getElementsByTagName("quantity")->item(0)->nodeValue =$currentQty + $currentHoldon;
 		
 		//save to xml file
 		$strXml = $xml->saveXML();

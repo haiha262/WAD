@@ -2,7 +2,7 @@
 session_start();
 header('Content-Type: text/xml, text/plan');
 
-$filePath = "./home/students/accounts/s4959353/cos80021/www/data/customers.xml";
+$filePath = "../../data/customers.xml";
 $email ="";
 $password ="";
 $result ="false";

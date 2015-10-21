@@ -9,9 +9,9 @@ if(!isset($_SESSION["id"]))
 
 //access
   
-$fileXMLPath = "./home/students/accounts/s4959353/cos80021/www/data/goods.xml";
-$fileXSLPath = "./home/students/accounts/s4959353/cos80021/www/data/goods_noneZero.xsl";
-$fileXSL_filter_Path = "./home/students/accounts/s4959353/cos80021/www/data/goods_noneZero_filter.xsl";
+$fileXMLPath = "../../data/goods.xml";
+$fileXSLPath = "../../data/goods_noneZero_qty.xsl";
+$fileXSL_process = "../../data/goods_process.xsl";
 //load category
 $id ="";
 $price ="";
@@ -78,7 +78,7 @@ function process($xml)
       $xml=new DOMDocument;
       $xml->loadXML($xmlSession);
 
-      $fileXSLPath =$GLOBALS["fileXSL_filter_Path"];
+      $fileXSLPath =$GLOBALS["fileXSL_process"];
 	  $xslDoc = new DomDocument;
 	  $xslDoc->load($fileXSLPath);
 	  //combine xsl into xml
@@ -88,6 +88,7 @@ function process($xml)
       $xmlTrans = simplexml_load_string($xmlTrans);
       $resultXml= $xmlTrans->saveXML();
       
+	  processFile($xml);
 	  echo $resultXml;
 	}
 	else
