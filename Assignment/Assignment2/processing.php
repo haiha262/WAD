@@ -99,3 +99,23 @@ function process($xml)
 	}
 }
 
+function processFile($xml)
+{
+  ////update catalog
+  $xpath = new DOMXPath($xml);
+  //
+  //// We starts from the root element
+  $query = "//items/item[quantity= 0 and holdon = 0]";
+  $entries =$xpath->query($query);
+
+  foreach ($entries as $entrie) {
+	
+    $entrie->getElementsByTagName("sold")->item(0)->nodeValue =0;
+	
+	
+	$strXml = $xml->saveXML();
+	$fileXMLPath = $GLOBALS['fileXMLPath'];
+	$xml->save($fileXMLPath);
+  }
+}
+
