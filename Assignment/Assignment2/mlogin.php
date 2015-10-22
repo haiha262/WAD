@@ -1,7 +1,5 @@
 <?php
 session_start();
-session_unset();
-unset($_SESSION["admin_name"]);//?not work
 
 header('Content-Type: text/xml, text/plan');
 //txtfile
@@ -27,7 +25,7 @@ if(isset($_POST["admin_name"]) && isset($_POST["password"]))
 		
 		if(strcmp($name, $admin_name)==0 && strcmp($pass, $password)==0)
 		{ 
-			$_SESSION["id"] = $admin_name;
+			$_SESSION["id_admin"] = $admin_name;
 			$result = "true";
 		}		
 	}

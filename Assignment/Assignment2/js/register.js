@@ -5,7 +5,7 @@ if (window.XMLHttpRequest)
 else if (window.ActiveXObject)
 	xHRObject = new ActiveXObject("Microsoft.XMLHTTP");
 
-var debug = true;
+var debug = false;
 var notification;
 function validate() {
 	var email = (document.getElementById("email").value).trim();

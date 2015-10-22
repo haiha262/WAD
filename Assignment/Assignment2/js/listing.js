@@ -6,18 +6,16 @@ else if (window.ActiveXObject)
 	xHRObject = new ActiveXObject("Microsoft.XMLHTTP");
 
 checkAccess();
-function checkAccess() {
-	var bodyOfRequest = "request=" + encodeURIComponent("check");;
-	xHRObject.open("POST", "session.php", true);
+function checkAccess() {	
+	xHRObject.open("POST", "listing.php", true);
 	xHRObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xHRObject.send(bodyOfRequest);
+	xHRObject.send(null);
 	xHRObject.onreadystatechange = function() {
 		if ((xHRObject.readyState == 4) && (xHRObject.status == 200)) {
-			var serverResponse = xHRObject.responseText;
-			if (serverResponse == "false") {
-				//Login again
-				window.location = "buyonline.htm";
-			} 
+			var errorLogin = xHRObject.responseText;
+			if (errorLogin=="login") {
+				window.location="buyonline.htm";
+			}
 		}
 	}
 }

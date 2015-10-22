@@ -1,7 +1,7 @@
 <?php
 session_start();
 header("Content-Type:text/xml");
-if(!isset($_SESSION["id"]))
+if(!isset($_SESSION["id_admin"]))
 {
   echo "login";
   return;

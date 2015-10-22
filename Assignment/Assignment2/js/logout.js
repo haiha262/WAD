@@ -6,8 +6,11 @@ else if (window.ActiveXObject)
 	xHRObject = new ActiveXObject("Microsoft.XMLHTTP");
 
 
-var bodyOfRequest = "request=" + encodeURIComponent("destroy");;
-xHRObject.open("POST", "session.php", true);
+var url = window.location.href;
+var params = url.split('?');
+
+var bodyOfRequest = params[1];
+xHRObject.open("POST", "logout.php", true);
 xHRObject.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 xHRObject.send(bodyOfRequest);
 xHRObject.onreadystatechange = function() {

@@ -1,10 +1,21 @@
 <?php
+session_start();
 header("Content-type: text/xml "); //  have to set this for IE
+
+if(!isset($_SESSION["id_admin"]))
+{
+  echo "login";
+  return;
+}
+
+//access
 $filePath = "../../data/goods.xml";
 if(!file_exists($filePath))
 {
 	//create new file and save to the path
 	$newDoc = new DOMDocument("1.0");
+    $newDoc->preserveWhiteSpace = false;
+    $newDoc->formatOutput = true;
 	$root = $newDoc->createElement("items");
 	$root = $newDoc->appendChild($root);		
 	$newDoc->FormatOutput = true;
