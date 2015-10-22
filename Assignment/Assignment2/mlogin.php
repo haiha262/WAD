@@ -16,10 +16,15 @@ if(isset($_POST["admin_name"]) && isset($_POST["password"]))
 
 	while(!feof($file)) {
 		$line = fgets($file);
-		$token = trim(strtok($line, ","));
+		$arr = explode(",",$line);
+		$name = trim($arr[0]);
+		$pass = trim($arr[1]);
+		/*$token = trim(strtok($line, ","));
 		
 		$name = $token;
 		$pass = trim(strtok(","));
+		*/
+		
 		if(strcmp($name, $admin_name)==0 && strcmp($pass, $password)==0)
 		{ 
 			$_SESSION["id"] = $admin_name;
