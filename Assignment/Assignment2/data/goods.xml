@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<items>
+	<item>
+		<id>5614acbdb1eac</id>
+		<name>Item1</name>
+		<price>456</price>
+		<quantity>0</quantity>
+		<holdon>0</holdon>
+		<sold>0</sold>
+	</item>
+	<item>
+		<id>5614df223045a</id>
+		<name>View VIne</name>
+		<price>89</price>
+		<quantity>0</quantity>
+		<holdon>0</holdon>
+		<sold>0</sold>
+	</item>
+	<item>
+		<id>5614df6b2468d</id>
+		<name>FM 2006</name>
+		<price>29</price>
+		<quantity>0</quantity>
+		<holdon>0</holdon>
+		<sold>0</sold>
+	</item>
+	<item>
+		<id>5614df9d12c9b</id>
+		<name>Samsung galaxy s4</name>
+		<price>629</price>
+		<quantity>16</quantity>
+		<holdon>0</holdon>
+		<sold>4</sold>
+	</item>
+	<item>
+		<id>5615fae929a58</id>
+		<name>Mac pro</name>
+		<price>1000</price>
+		<quantity>191</quantity>
+		<holdon>3</holdon>
+		<sold>6</sold>
+	</item>
+<item><id>5627666b8aadd</id><name>Mac pro</name><price>123</price><quantity>0</quantity><description>Apple</description><holdon>0</holdon><sold>0</sold></item><item><id>56295f8da14e3</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item><item><id>5629601b93966</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item><item><id>5629602c04746</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item><item><id>562960373c80a</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item><item><id>56296079a18ff</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item><item><id>5629617c14343</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item><item><id>5629622022000</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item><item><id>56296221b9f96</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item><item><id>5629637a2de74</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item><item><id>562963909bd62</id><name>Item1</name><price>12.2</price><quantity>0</quantity><description>ABC-asd</description><holdon>0</holdon><sold>4</sold></item><item><id>56296414cab0b</id><name>Item2</name><price>12.8</price><quantity>8</quantity><description>ANZ item</description><holdon>0</holdon><sold>0</sold></item><item><id>5629643a75cf0</id><name>Item3</name><price>11.12</price><quantity>8</quantity><description>subaru item</description><holdon>0</holdon><sold>0</sold></item><item><id>562964b941c54</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item><item><id>56296549a0be9</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item><item><id>562965e338000</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item><item><id>56296678a43ab</id><name/><price/><quantity/><description/><holdon>0</holdon><sold>0</sold></item></items>
